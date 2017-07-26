@@ -1,0 +1,11 @@
+# 德玛西亚万众一心
+name = ok
+
+[global]
+global_name = Hello World        # Hello World
+global_val = "欢迎来到#德莱联盟" # 注释
+
+[default]
+val = nice
+abc = abc
+key=val_no_space    # no space

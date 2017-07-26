@@ -6,10 +6,21 @@
 
 #include "pcl.h"
 
+#include <iostream>
 #include <fstream>
 #include <string.h>
 #include <vector>
 #include <string>
+
+// 是否开启DEBUG功能
+static const bool DEBUG_TAG = false;
+
+static inline void DEBUG_MSG(std::string msg)
+{
+    if (DEBUG_TAG) {
+        std::cout << msg << std::endl;
+    }
+}
 
 using namespace pcl;
 
@@ -102,7 +113,7 @@ static void str_ignore_annotation(std::string &value)
             value = "";
             return;
         } else {
-            value = value.substr(0, qm_pos);
+            value = value.substr(0, qm_pos + 1);
             str_trunc_quotation_marks(value);
             return;
         }
@@ -133,15 +144,15 @@ static bool is_key_legal(std::string &key)
     }
     for (unsigned int i = 0; i < key.length(); i++) {
         if (i == 0) {
-            if ((key[i] < 'A' && key[i] > 'Z') ||
-                (key[i] < 'a' && key[i] > 'z') ||
+            if ((key[i] < 'A' && key[i] > 'Z') &&
+                (key[i] < 'a' && key[i] > 'z') &&
                 (key[i] != '_')) {
                 return false;
             }
         } else {
-            if ((key[i] < '0' && key[i] > '9') ||
-                (key[i] < 'A' && key[i] > 'Z') ||
-                (key[i] < 'a' && key[i] > 'z') ||
+            if ((key[i] < '0' && key[i] > '9') &&
+                (key[i] < 'A' && key[i] > 'Z') &&
+                (key[i] < 'a' && key[i] > 'z') &&
                 (key[i] != '_')) {
                 return false;
             }
@@ -177,11 +188,17 @@ static bool is_table(std::string &line)
 
 static int deal_with_line(std::string line)
 {
+    DEBUG_MSG(line);
+
     // 清除首尾空格
     str_trunc(line);
     
+    DEBUG_MSG(line);
+
     // 去除首尾引号
     str_trunc_quotation_marks(line);
+
+    DEBUG_MSG(line);
 
     if (line.length() == 0) {
         return 0;
@@ -189,6 +206,7 @@ static int deal_with_line(std::string line)
 
     // 判断当前行是否为纯注释行
     if (is_pure_annotation(line)) {
+        DEBUG_MSG(line.c_str());
         return 0;
     }
 
@@ -204,6 +222,10 @@ static int deal_with_line(std::string line)
 
     // 取value出来单独作处理
     std::string value;
+
+    DEBUG_MSG("Check key & val");
+    DEBUG_MSG(kv[0]);
+    DEBUG_MSG(kv[1]);
 
     // 对key进行trunc操作
     str_trunc(kv[0]);

@@ -26,13 +26,6 @@ pclMgr *pclMgr::get_instance()
 
 int pclMgr::add_table(std::string table_name)
 {
-    /*unsigned int pos;
-    for (pos = 0; pos < pcl_table_list_.size(); pos++) {
-        if (table_name == pcl_table_list_[pos]) {
-            break;
-        }
-    }*/
-
     std::list<pcl::pclTable *>::iterator list_iter;
     for (list_iter = pcl_table_list_.begin(); list_iter != pcl_table_list_.end(); ++list_iter) {
         if (table_name == (*list_iter)->get_name()) {
@@ -45,7 +38,12 @@ int pclMgr::add_table(std::string table_name)
         pclTable *tmp = *list_iter;
         pcl_table_list_.erase(list_iter);
         pcl_table_list_.push_back(tmp);
+    } else {
+        pclTable *new_table = new pclTable();
+        new_table->set_name(table_name);
+        pcl_table_list_.push_back(new_table);
     }
+
     return 0;
 }
 

@@ -13,4 +13,4 @@ add_library(pcl STATIC ${SRC_LIST})
 
 set(CMAKE_INSTALL_PREFIX "/usr/local")
 install(DIRECTORY "${PROJECT_SOURCE_DIR}/src/" DESTINATION "include/pcl" FILES_MATCHING PATTERN "*.h")
-install(FILES "${PROJECT_BINARY_DIR}/pcl.a" DESTINATION "lib")
+install(FILES "${PROJECT_BINARY_DIR}/libpcl.a" DESTINATION "lib")

@@ -24,7 +24,7 @@ namespace pcl
             int pcl_init(std::string pcl_);
 
         private:
-            pclCls();
+            pclCls() = default;
 
             int read_pcl();
 
